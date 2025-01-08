@@ -3,9 +3,13 @@
 // eslint-disable-next-line no-unused-vars
 async function main() {
   class Person {
-    firstName = "John";
-    lastName = "Doe";
-    birthDate = "January 1, 1970";
+    constructor() {
+      this.firstName = "John";
+      this.lastName = "Doe";
+      this.birthDate = "January 1, 1970";
+      output("Created a new Person object! Hurray!")
+    }
+
   }
 
   const me = new Person();
