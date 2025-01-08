@@ -8,7 +8,16 @@ async function main() {
       this.lastName = lastName || "Doe";
       this.birthDate = birthDate || "January 1, 1970";
     }
-
+    calculateAge() {
+      const today = new Date();
+      const birthDate = new Date(this.birthDate);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
   }
 
   const me = new Person("James", "Grieve", null);
@@ -16,8 +25,8 @@ async function main() {
   // me.lastName = "Grieve";
   const you = new Person();
 
-  output(`${me.firstName} ${me.lastName}, born on ${me.birthDate}.`);
-  output(`${you.firstName} ${you.lastName}, born on ${you.birthDate}.`);
+  output(`${me.firstName} ${me.lastName}, born on ${me.birthDate} - ${me.calculateAge()} years old.`);
+  output(`${you.firstName} ${you.lastName}, born on ${you.birthDate} - ${you.calculateAge()} years old.`);
 
 
 }
