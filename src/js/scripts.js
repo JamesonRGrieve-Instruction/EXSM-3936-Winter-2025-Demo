@@ -8,6 +8,10 @@ async function main() {
       this.firstName = firstName || "John";
       this.lastName = lastName || "Doe";
       this.birthDate = birthDate || "January 1, 1970";
+      this.hair = {
+        color: "black",
+        length: 5
+      }
     }
     get birthDate() {
       return this.#birthDate.toUpperCase();
@@ -36,7 +40,7 @@ async function main() {
   me.birthDate = "Yes";
   const you = new Person();
 
-  output(`${me.firstName} ${me.lastName}, born on ${me.birthDate} - ${me.calculateAge()} years old.`);
+  output(`${me.firstName} ${me.lastName}, born on ${me.birthDate} - ${me.calculateAge()} years old with ${me.hair.color} hair.`);
   output(`${you.firstName} ${you.lastName}, born on ${you.birthDate} - ${you.calculateAge()} years old.`);
 
 }
