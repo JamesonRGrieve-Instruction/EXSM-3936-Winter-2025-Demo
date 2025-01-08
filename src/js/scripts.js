@@ -3,17 +3,18 @@
 // eslint-disable-next-line no-unused-vars
 async function main() {
   class Person {
+    #birthDate; // Private fields prefixed with # CANNOT be changed from outside the object/class. This means we know 100% all values in it (so long as you only set it in the setter) MUST be validated according to said setter.
     constructor(firstName = "John", lastName = "Doe", birthDate = "January 1, 1970") {
       this.firstName = firstName || "John";
       this.lastName = lastName || "Doe";
       this.birthDate = birthDate || "January 1, 1970";
     }
     get birthDate() {
-      return this._birthDate.toUpperCase();
+      return this.#birthDate.toUpperCase();
     }
     set birthDate(value) {
       if ((new Date(value)).toString() !== "Invalid Date") {
-        this._birthDate = value;
+        this.#birthDate = value;
       };
     }
 
