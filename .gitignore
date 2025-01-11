@@ -208,21 +208,6 @@ dist
 .history
 .ionide
 
-### Web ###
-*.asp
-*.cer
-*.csr
-*.css
-*.htm
-*.html
-*.js
-*.jsp
-*.php
-*.rss
-*.wasm
-*.wat
-*.xhtml
-
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -341,10 +326,7 @@ StyleCopReport.xml
 *.tmp
 *.tmp_proj
 *_wpftmp.csproj
-<<<<<<< HEAD
 *.log
-=======
->>>>>>> f6d3e5e42af7f0460f543ba7628f643f820f50c2
 *.tlog
 *.vspscc
 *.vssscc
@@ -487,10 +469,6 @@ _pkginfo.txt
 # Others
 ClientBin/
 ~$*
-<<<<<<< HEAD
-*~
-=======
->>>>>>> f6d3e5e42af7f0460f543ba7628f643f820f50c2
 *.dbmdl
 *.dbproj.schemaview
 *.jfm
