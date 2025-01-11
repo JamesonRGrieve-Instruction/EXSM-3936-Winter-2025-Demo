@@ -49,11 +49,20 @@ async function main() {
         output(error);
       }
     }
+
+    toString() {
+      return JSON.stringify({
+        ...this,
+        brand: this.brand,
+        colour: this.colour
+      });
+    }
   }
 
   const myPen = new Pen();
   myPen.write(100);
   myPen.write(42);
   myPen.write(200);
+  output(myPen);
   output(myPen.inkTube.inkAmountML);
 }
