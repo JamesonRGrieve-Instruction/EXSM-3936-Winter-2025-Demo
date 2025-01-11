@@ -7,9 +7,9 @@ async function main() {
     #colour;
     #inkLevel;
     constructor(brand = "Bic", colour = "black", inkLevel = 100) {
-      this.brand = brand;
-      this.colour = colour;
-      this.inkLevel = inkLevel;
+      this.brand = brand || "Bic";
+      this.colour = colour || "black";
+      this.inkLevel = inkLevel || 100;
     }
     get brand() {
       return this.#brand;
@@ -34,7 +34,6 @@ async function main() {
         this.#inkLevel = value;
       }
     }
-
     write(numLetters) {
       try {
         this.inkLevel -= numLetters * 0.5;
