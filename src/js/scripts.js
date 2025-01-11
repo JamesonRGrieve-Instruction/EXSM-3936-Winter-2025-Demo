@@ -3,13 +3,13 @@
 // eslint-disable-next-line no-unused-vars
 async function main() {
   class Pen {
-    #brand; // Private fields prefixed with # CANNOT be changed from outside the object/class. This means we know 100% all values in it (so long as you only set it in the setter) MUST be validated according to said setter.
-    #colour;
-    #inkLevel;
-    constructor(brand = "Bic", colour = "black", inkLevel = 100) {
-      this.brand = brand || "Bic";
-      this.colour = colour || "black";
-      this.inkLevel = inkLevel || 100;
+    #brand = "Bic"; // Private fields prefixed with # CANNOT be changed from outside the object/class. This means we know 100% all values in it (so long as you only set it in the setter) MUST be validated according to said setter.
+    #colour = "black";
+    #inkLevel = 100;
+    constructor(brand, colour, inkLevel) {
+      this.brand = brand || this.brand;
+      this.colour = colour || this.colour;
+      this.inkLevel = inkLevel || this.inkLevel;
     }
     get brand() {
       return this.#brand;
