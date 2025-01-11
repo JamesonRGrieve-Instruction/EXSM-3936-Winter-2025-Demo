@@ -55,7 +55,7 @@ async function main() {
         ...this,
         brand: this.brand,
         colour: this.colour
-      });
+      }, null, 4); // This number is the indentation
     }
   }
 
@@ -65,4 +65,6 @@ async function main() {
   myPen.write(200);
   output(myPen);
   output(myPen.inkTube.inkAmountML);
+
+
 }
