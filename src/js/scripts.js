@@ -4,7 +4,7 @@
 class InkTube {
   #inkAmountML = 150;
   constructor(inkAmountML) {
-    this.inkAmountML = inkAmountML || this.inkAmountML;
+    this.inkAmountML = 1 // inkAmountML || this.inkAmountML;
   }
   get inkAmountML() {
     return this.#inkAmountML.toFixed(2);
