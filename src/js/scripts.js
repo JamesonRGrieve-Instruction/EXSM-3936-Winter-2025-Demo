@@ -61,7 +61,9 @@ class Pen extends WritingImplement {
     this.colour = colour || this.colour;
     this.inkAmountML = inkAmountML || this.inkAmountML;
   }
-
+  get inkAmountWithUnits() {
+    return `${this.inkAmountML}ml`;
+  }
   get colour() {
     return this.#colour;
   }
@@ -111,6 +113,8 @@ async function main() {
     new PaintBrush(),
     new Pencil()
   ];
+  const myPen = new Pen();
+  output(myPen.inkAmountWithUnits);
   for (const item of myPencilsAndPens) {
     item.write(100);
     item.write(42);
