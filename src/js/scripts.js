@@ -108,4 +108,4 @@ async function main() {
   output(myPencil);
   output(myPencil.lengthMM);
 }
-// module.exports = { Pen, InkTube };
+// module.exports = { Pen, Pencil, WritingImplement };
