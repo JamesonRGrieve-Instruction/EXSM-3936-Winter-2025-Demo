@@ -67,7 +67,7 @@ class Pen extends WritingImplement {
   }
   write(numLetters) {
     try {
-      this.inkTube.inkAmountML -= numLetters * 0.1;
+      this.inkAmountML -= numLetters * 0.1;
     }
     catch (error) {
       console.log(error);
