@@ -14,15 +14,34 @@ class WritingImplement {
 }
 
 class Pencil extends WritingImplement {
-  constructor(brand) {
+  #lengthMM = 200;
+  constructor(brand, lengthMM) {
     super(brand);
+    this.lengthMM = lengthMM;
   }
-
+  get lengthMM() {
+    return this.#lengthMM.toFixed(2);
+  }
+  set lengthMM(value) {
+    if (value < 0) {
+      throw new Error("Ink level must be zero or more.");
+    }
+    else {
+      this.#lengthMM = Number(value);
+    }
+  }
+  write(numLetters) {
+    try {
+      this.lengthMM -= numLetters * 0.05;
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 }
 class Pen extends WritingImplement {
   #colour = "black";
   #inkAmountML = 150;
-  inkTube;
   constructor(brand, colour, inkAmountML) {
     super(brand);
     this.colour = colour || this.colour;
