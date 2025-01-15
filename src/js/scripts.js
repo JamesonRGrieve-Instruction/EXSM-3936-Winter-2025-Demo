@@ -1,10 +1,39 @@
 // eslint-disable-next-line no-unused-vars
 /* global output, input */
-// eslint-disable-next-line no-unused-vars
-class InkTube {
+class WritingImplement {
+  #brand = "Dixon"; // Private fields prefixed with # CANNOT be changed from outside the object/class. This means we know 100% all values in it (so long as you only set it in the setter) MUST be validated according to said setter.
+  constructor(brand) {
+    this.#brand = brand || this.#brand;
+  }
+  get brand() {
+    return this.#brand;
+  }
+  set brand(value) {
+    this.#brand = value;
+  }
+}
+
+class Pencil extends WritingImplement {
+  constructor(brand) {
+    super(brand);
+  }
+
+}
+class Pen extends WritingImplement {
+  #colour = "black";
   #inkAmountML = 150;
-  constructor(inkAmountML) {
-    this.inkAmountML = 1 // inkAmountML || this.inkAmountML;
+  inkTube;
+  constructor(brand, colour, inkAmountML) {
+    super(brand);
+    this.colour = colour || this.colour;
+    this.inkAmountML = inkAmountML || this.inkAmountML;
+  }
+
+  get colour() {
+    return this.#colour;
+  }
+  set colour(value) {
+    this.#colour = value;
   }
   get inkAmountML() {
     return this.#inkAmountML.toFixed(2);
@@ -16,28 +45,6 @@ class InkTube {
     else {
       this.#inkAmountML = Number(value);
     }
-  }
-}
-class Pen {
-  #brand = "Bic"; // Private fields prefixed with # CANNOT be changed from outside the object/class. This means we know 100% all values in it (so long as you only set it in the setter) MUST be validated according to said setter.
-  #colour = "black";
-  inkTube;
-  constructor(brand, colour, inkAmountML) {
-    this.brand = brand || this.brand;
-    this.colour = colour || this.colour;
-    this.inkTube = new InkTube(inkAmountML);
-  }
-  get brand() {
-    return this.#brand;
-  }
-  set brand(value) {
-    this.#brand = value;
-  }
-  get colour() {
-    return this.#colour;
-  }
-  set colour(value) {
-    this.#colour = value;
   }
   write(numLetters) {
     try {
@@ -56,18 +63,13 @@ class Pen {
     }, null, 4); // This number is the indentation
   }
 }
-
+// eslint-disable-next-line no-unused-vars
 async function main() {
-
-
-
   const myPen = new Pen();
   myPen.write(100);
   myPen.write(42);
   myPen.write(200);
   output(myPen);
-  output(myPen.inkTube.inkAmountML);
-
-
+  output(myPen.inkAmountML);
 }
-module.exports = { Pen, InkTube };
+// module.exports = { Pen, InkTube };
