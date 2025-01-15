@@ -3,6 +3,9 @@
 class WritingImplement {
   #brand = "Dixon"; // Private fields prefixed with # CANNOT be changed from outside the object/class. This means we know 100% all values in it (so long as you only set it in the setter) MUST be validated according to said setter.
   constructor(brand) {
+    if (this.constructor === WritingImplement) {
+      throw new Error("WritingImplement is an abstract class.");
+    }
     this.#brand = brand || this.#brand;
   }
   get brand() {
@@ -10,6 +13,9 @@ class WritingImplement {
   }
   set brand(value) {
     this.#brand = value;
+  }
+  write(numLetters) {
+    throw new Error(`write() is an abstract method and must be implemented in the ${this.constructor.name} class.`);
   }
 }
 
@@ -91,21 +97,39 @@ class Pen extends WritingImplement {
     }, null, 4); // This number is the indentation
   }
 }
+class PaintBrush extends WritingImplement {
+  constructor(brand) {
+    super(brand);
+  }
+}
+
 // eslint-disable-next-line no-unused-vars
 async function main() {
-  const myPen = new Pen();
-  myPen.write(100);
-  myPen.write(42);
-  myPen.write(200);
-  output(myPen);
-  output(myPen.inkAmountML);
+  const myPencilsAndPens = [
+    new Pencil(),
+    new Pen(),
+    new PaintBrush(),
+    new Pencil()
+  ];
+  for (const item of myPencilsAndPens) {
+    item.write(100);
+    item.write(42);
+    item.write(200);
+    output(item);
+  }
+  // const myPen = new Pen();
+  // myPen.write(100);
+  // myPen.write(42);
+  // myPen.write(200);
+  // output(myPen);
+  // output(myPen.inkAmountML);
 
 
-  const myPencil = new Pencil();
-  myPencil.write(100);
-  myPencil.write(42);
-  myPencil.write(200);
-  output(myPencil);
-  output(myPencil.lengthMM);
+  // const myPencil = new Pencil();
+  // myPencil.write(100);
+  // myPencil.write(42);
+  // myPencil.write(200);
+  // output(myPencil);
+  // output(myPencil.lengthMM);
 }
 // module.exports = { Pen, Pencil, WritingImplement };
