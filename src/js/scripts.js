@@ -17,7 +17,7 @@ class Pencil extends WritingImplement {
   #lengthMM = 200;
   constructor(brand, lengthMM) {
     super(brand);
-    this.lengthMM = lengthMM;
+    this.lengthMM = lengthMM || this.lengthMM;
   }
   get lengthMM() {
     return this.#lengthMM.toFixed(2);
@@ -37,6 +37,14 @@ class Pencil extends WritingImplement {
     catch (error) {
       console.log(error);
     }
+  }
+
+  toString() {
+    return JSON.stringify({
+      ...this,
+      brand: this.brand,
+      lengthMM: this.lengthMM
+    }, null, 4); // This number is the indentation
   }
 }
 class Pen extends WritingImplement {
@@ -78,7 +86,8 @@ class Pen extends WritingImplement {
     return JSON.stringify({
       ...this,
       brand: this.brand,
-      colour: this.colour
+      colour: this.colour,
+      inkAmountML: this.inkAmountML
     }, null, 4); // This number is the indentation
   }
 }
@@ -90,5 +99,13 @@ async function main() {
   myPen.write(200);
   output(myPen);
   output(myPen.inkAmountML);
+
+
+  const myPencil = new Pencil();
+  myPencil.write(100);
+  myPencil.write(42);
+  myPencil.write(200);
+  output(myPencil);
+  output(myPencil.lengthMM);
 }
 // module.exports = { Pen, InkTube };
