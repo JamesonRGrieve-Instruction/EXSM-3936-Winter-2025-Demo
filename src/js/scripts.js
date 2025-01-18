@@ -20,6 +20,26 @@ class Engine {
     this.#isRunning = isRunning;
   }
 }
+class Transmission {
+  #gearCount = 5;
+  #type = "manual";
+  constructor(gearCount, type) {
+    this.gearCount = gearCount || this.gearCount;
+    this.type = type || this.type;
+  }
+  get gearCount() {
+    return this.#gearCount;
+  }
+  set gearCount(gearCount) {
+    this.#gearCount = gearCount;
+  }
+  get type() {
+    return this.#type;
+  }
+  set type(type) {
+    this.#type = type;
+  }
+}
 class Car {
   #make = "Honda";
   #model = "Civic";
@@ -58,7 +78,12 @@ class Car {
   }
 
   StartEngine() {
-    this.engine.isRunning = true;
+    if (this.engine.isRunning) {
+      throw new Error("Engine is already running");
+    }
+    else {
+      this.engine.isRunning = true;
+    }
   }
 
   StopEngine() {
