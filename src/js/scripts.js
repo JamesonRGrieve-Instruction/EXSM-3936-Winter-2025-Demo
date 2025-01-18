@@ -1,5 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 /* global output, input */
+
+class AbstractFunctionError extends Error {
+  constructor(funcName, classRef) {
+    super(`${funcName}() is an abstract method and must be implemented in the ${classRef.constructor.name} class.`);
+    this.name = "AbstractFunctionError";
+  }
+}
+
 class Person {
   constructor(firstName = "John", middleName = "Gertrude", lastName = "Doe") {
     if (this.constructor === Person) {
@@ -13,7 +21,7 @@ class Person {
     return `${this.firstName} ${this.middleName} ${this.lastName}`;
   }
   greet() {
-    throw new Error(`greet() is an abstract method and must be implemented in the ${this.constructor.name} class.`);
+    throw new AbstractFunctionError("greet", this);
   }
 }
 class Student extends Person {
