@@ -48,7 +48,7 @@ class Transmission {
     this.#type = value;
   }
 }
-class Car {
+class Vehicle {
   #make = "Honda";
   #model = "Civic";
   #year = 2000;
@@ -121,9 +121,8 @@ class Car {
       this.odometer += distance;
     }
   }
-
-  toString() {
-    return JSON.stringify({
+  objDump() {
+    return {
       ...this,
       make: this.make,
       model: this.model,
@@ -140,23 +139,50 @@ class Car {
         selectedGear: this.transmission.selectedGear,
         type: this.transmission.type,
       },
-    }, null, 4);
+    };
+  }
+  toString() {
+    return JSON.stringify(this.objDump(), null, 4);
+  }
+}
+class Car extends Vehicle {
+  constructor(make, model, year, odometer, engine, transmission) {
+    super(make, model, year, odometer, engine, transmission);
+  }
+}
+class PickupTruck extends Vehicle {
+  #bedLength = 7;
+  constructor(make, model, year, odometer, bedLength, engine, transmission) {
+    super(make, model, year, odometer, bedLength, engine, transmission);
+    this.bedLength = bedLength || this.bedLength;
+  }
+  get bedLength() {
+    return this.#bedLength;
+  }
+  set bedLength(value) {
+    this.#bedLength = value;
+  }
+  objDump() {
+    return {
+      ...super.objDump(),
+      bedLength: this.bedLength,
+    };
   }
 }
 
 // eslint-disable-next-line no-unused-vars
 async function main() {
-  const myCar = new Car();
-  myCar.startEngine();
-  myCar.shiftTransmission("1");
-  myCar.drive(100);
-  myCar.shiftTransmission("N");
-  myCar.stopEngine();
-  myCar.startEngine();
-  myCar.shiftTransmission("1");
-  myCar.drive(50);
-  myCar.shiftTransmission("N");
-  myCar.stopEngine();
-  output(`${myCar.odometer}km`);
-  output(myCar);
+  const myVehicle = new PickupTruck();
+  myVehicle.startEngine();
+  myVehicle.shiftTransmission("1");
+  myVehicle.drive(100);
+  myVehicle.shiftTransmission("N");
+  myVehicle.stopEngine();
+  myVehicle.startEngine();
+  myVehicle.shiftTransmission("1");
+  myVehicle.drive(50);
+  myVehicle.shiftTransmission("N");
+  myVehicle.stopEngine();
+  output(`${myVehicle.odometer}km`);
+  output(myVehicle);
 }
