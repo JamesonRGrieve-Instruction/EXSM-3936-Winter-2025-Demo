@@ -22,9 +22,11 @@ class Engine {
 }
 class Transmission {
   #gearCount = 5;
+  #selectedGear = 'N';
   #type = "manual";
-  constructor(gearCount, type) {
+  constructor(gearCount, selectedGear, type) {
     this.gearCount = gearCount || this.gearCount;
+    this.selectedGear = selectedGear || this.selectedGear;
     this.type = type || this.type;
   }
   get gearCount() {
@@ -32,6 +34,12 @@ class Transmission {
   }
   set gearCount(gearCount) {
     this.#gearCount = gearCount;
+  }
+  get selectedGear() {
+    return this.#selectedGear;
+  }
+  set selectedGear(selectedGear) {
+    this.#selectedGear = selectedGear;
   }
   get type() {
     return this.#type;
@@ -45,12 +53,13 @@ class Car {
   #model = "Civic";
   #year = 2000;
   #odometer = 0;
-  constructor(make, model, year, odometer, engine) {
+  constructor(make, model, year, odometer, engine, transmission) {
     this.make = make || this.make;
     this.model = model || this.model;
     this.year = year || this.year;
     this.odometer = odometer || this.odometer;
     this.engine = engine || new Engine();
+    this.transmission = transmission || new Transmission();
   }
   get make() {
     return this.#make;
@@ -77,48 +86,77 @@ class Car {
     this.#odometer = odometer;
   }
 
-  StartEngine() {
+  startEngine() {
     if (this.engine.isRunning) {
       throw new Error("Engine is already running");
+    }
+    if (this.transmission.type === "manual" && this.transmission.selectedGear !== 'N') {
+      throw new Error("Transmission is not in neutral");
+    }
+    if (this.transmission.type === "automatic" && !['P', 'N'].includes(this.transmission.selectedGear)) {
+      throw new Error("Transmission is not in neutral or park");
     }
     else {
       this.engine.isRunning = true;
     }
   }
 
-  StopEngine() {
+  stopEngine() {
     this.engine.isRunning = false;
   }
+  shiftTransmission(target) {
+    this.transmission.selectedGear = target;
+  }
   drive(distance) {
-    if (this.engine.isRunning) {
-      this.odometer += distance;
-    }
-    else {
+    if (!this.engine.isRunning) {
       throw new Error("Engine is not running");
     }
+    if (this.transmission.type === "manual" && this.transmission.selectedGear === 'N') {
+      throw new Error("Transmission is in neutral, you cannot drive");
+    }
+    if (this.transmission.type === "automatic" && ['P', 'N'].includes(this.transmission.selectedGear)) {
+      throw new Error("Transmission is in park or neutral, you cannot drive");
+    }
+    else {
+      this.odometer += distance;
+    }
+  }
+
+  toString() {
+    return JSON.stringify({
+      ...this,
+      make: this.make,
+      model: this.model,
+      year: this.year,
+      odometer: this.odometer,
+      engine: {
+        ...this.engine,
+        cylinderCount: this.engine.cylinderCount,
+        isRunning: this.engine.isRunning,
+      },
+      transmission: {
+        ...this.transmission,
+        gearCount: this.transmission.gearCount,
+        selectedGear: this.transmission.selectedGear,
+        type: this.transmission.type,
+      },
+    }, null, 4);
   }
 }
 
 // eslint-disable-next-line no-unused-vars
 async function main() {
   const myCar = new Car();
-  myCar.StartEngine();
+  myCar.startEngine();
+  myCar.shiftTransmission("1");
   myCar.drive(100);
-  myCar.StopEngine();
-  myCar.StartEngine();
+  myCar.shiftTransmission("N");
+  myCar.stopEngine();
+  myCar.startEngine();
+  myCar.shiftTransmission("1");
   myCar.drive(50);
-  myCar.StopEngine();
+  myCar.shiftTransmission("N");
+  myCar.stopEngine();
   output(`${myCar.odometer}km`);
-  output(JSON.stringify({
-    ...myCar,
-    make: myCar.make,
-    model: myCar.model,
-    year: myCar.year,
-    odometer: myCar.odometer,
-    engine: {
-      ...myCar.engine,
-      cylinderCount: myCar.engine.cylinderCount,
-      isRunning: myCar.engine.isRunning,
-    }
-  }, null, 4));
+  output(myCar);
 }
