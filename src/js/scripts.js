@@ -1,46 +1,99 @@
 // eslint-disable-next-line no-unused-vars
 /* global output, input */
-// eslint-disable-next-line no-unused-vars
-async function main() {
-  class Person {
-    #birthDate; // Private fields prefixed with # CANNOT be changed from outside the object/class. This means we know 100% all values in it (so long as you only set it in the setter) MUST be validated according to said setter.
-    constructor(firstName = "John", lastName = "Doe", birthDate = "January 1, 1970") {
-      this.firstName = firstName || "John";
-      this.lastName = lastName || "Doe";
-      this.birthDate = birthDate || "January 1, 1970";
-      this.hair = {
-        color: "black",
-        length: 5
-      }
-    }
-    get birthDate() {
-      return this.#birthDate.toUpperCase();
-    }
-    set birthDate(value) {
-      if ((new Date(value)).toString() !== "Invalid Date") {
-        this.#birthDate = value;
-      };
-    }
-
-    calculateAge() {
-      const today = new Date();
-      const birthDate = new Date(this.birthDate);
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const m = today.getMonth() - birthDate.getMonth();
-      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      return age;
-    }
+class Engine {
+  #cylinderCount = 4;
+  #isRunning = false;
+  constructor(cylinderCount, isRunning) {
+    this.cylinderCount = cylinderCount || this.cylinderCount;
+    this.isRunning = isRunning || this.isRunning;
+  }
+  get cylinderCount() {
+    return this.#cylinderCount;
+  }
+  set cylinderCount(cylinderCount) {
+    this.#cylinderCount = cylinderCount;
+  }
+  get isRunning() {
+    return this.#isRunning;
+  }
+  set isRunning(isRunning) {
+    this.#isRunning = isRunning;
+  }
+}
+class Car {
+  #make = "Honda";
+  #model = "Civic";
+  #year = 2000;
+  #odometer = 0;
+  constructor(make, model, year, odometer, engine) {
+    this.make = make || this.make;
+    this.model = model || this.model;
+    this.year = year || this.year;
+    this.odometer = odometer || this.odometer;
+    this.engine = engine || new Engine();
+  }
+  get make() {
+    return this.#make;
+  }
+  set make(make) {
+    this.#make = make;
+  }
+  get model() {
+    return this.#model;
+  }
+  set model(model) {
+    this.#model = model;
+  }
+  get year() {
+    return this.#year;
+  }
+  set year(year) {
+    this.#year = year;
+  }
+  get odometer() {
+    return this.#odometer;
+  }
+  set odometer(odometer) {
+    this.#odometer = odometer;
   }
 
-  const me = new Person("James", "Grieve", "February 1, 1970");
-  // me.firstName = "James";
-  // me.lastName = "Grieve";
-  me.birthDate = "Yes";
-  const you = new Person();
+  StartEngine() {
+    this.engine.isRunning = true;
+  }
 
-  output(`${me.firstName} ${me.lastName}, born on ${me.birthDate} - ${me.calculateAge()} years old with ${me.hair.color} hair.`);
-  output(`${you.firstName} ${you.lastName}, born on ${you.birthDate} - ${you.calculateAge()} years old.`);
+  StopEngine() {
+    this.engine.isRunning = false;
+  }
+  drive(distance) {
+    if (this.engine.isRunning) {
+      this.odometer += distance;
+    }
+    else {
+      throw new Error("Engine is not running");
+    }
+  }
+}
 
+// eslint-disable-next-line no-unused-vars
+async function main() {
+  const myCar = new Car();
+  myCar.StartEngine();
+  myCar.drive(100);
+  myCar.StopEngine();
+  myCar.StartEngine();
+  myCar.drive(50);
+  myCar.StopEngine();
+  output(`${myCar.odometer}km`);
+  output(JSON.stringify({
+    ...myCar,
+    make: myCar.make,
+    model: myCar.model,
+    year: myCar.year,
+    odometer: myCar.odometer,
+    engine: {
+      ...myCar.engine,
+      cylinderCount: myCar.engine.cylinderCount,
+      isRunning: myCar.engine.isRunning,
+    }
+  }, null, 4));
 }
