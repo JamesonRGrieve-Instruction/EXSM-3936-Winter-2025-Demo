@@ -10,14 +10,14 @@ class Engine {
   get cylinderCount() {
     return this.#cylinderCount;
   }
-  set cylinderCount(cylinderCount) {
-    this.#cylinderCount = cylinderCount;
+  set cylinderCount(value) {
+    this.#cylinderCount = value;
   }
   get isRunning() {
     return this.#isRunning;
   }
-  set isRunning(isRunning) {
-    this.#isRunning = isRunning;
+  set isRunning(value) {
+    this.#isRunning = value;
   }
 }
 class Transmission {
@@ -32,20 +32,20 @@ class Transmission {
   get gearCount() {
     return this.#gearCount;
   }
-  set gearCount(gearCount) {
-    this.#gearCount = gearCount;
+  set gearCount(value) {
+    this.#gearCount = value;
   }
   get selectedGear() {
     return this.#selectedGear;
   }
-  set selectedGear(selectedGear) {
-    this.#selectedGear = selectedGear;
+  set selectedGear(value) {
+    this.#selectedGear = value;
   }
   get type() {
     return this.#type;
   }
-  set type(type) {
-    this.#type = type;
+  set type(value) {
+    this.#type = value;
   }
 }
 class Car {
@@ -64,26 +64,26 @@ class Car {
   get make() {
     return this.#make;
   }
-  set make(make) {
-    this.#make = make;
+  set make(value) {
+    this.#make = value;
   }
   get model() {
     return this.#model;
   }
-  set model(model) {
-    this.#model = model;
+  set model(value) {
+    this.#model = value;
   }
   get year() {
     return this.#year;
   }
-  set year(year) {
-    this.#year = year;
+  set year(value) {
+    this.#year = value;
   }
   get odometer() {
     return this.#odometer;
   }
-  set odometer(odometer) {
-    this.#odometer = odometer;
+  set odometer(value) {
+    this.#odometer = value;
   }
 
   startEngine() {
@@ -104,8 +104,8 @@ class Car {
   stopEngine() {
     this.engine.isRunning = false;
   }
-  shiftTransmission(target) {
-    this.transmission.selectedGear = target;
+  shiftTransmission(targetGear) {
+    this.transmission.selectedGear = targetGear;
   }
   drive(distance) {
     if (!this.engine.isRunning) {
