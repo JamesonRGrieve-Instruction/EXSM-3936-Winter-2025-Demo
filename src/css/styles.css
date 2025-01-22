@@ -54,6 +54,11 @@ main .image p {
   text-align: center;
   font-weight: bold;
 }
+main .image .tags {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
 
 footer {
   text-align: center;

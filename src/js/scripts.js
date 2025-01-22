@@ -30,11 +30,25 @@ newImageForm.addEventListener('submit', (event) => {
     // Create the caption element.
     const newImageCaption = document.createElement('p');
     newImageCaption.textContent = newImageTitleInput.value;
+    // Create the tags element.
+    const newImageTags = document.createElement('p');
+    newImageTags.classList.add('tags');
+    for (const tag of newImageTagsInput.value.split(',')) {
+        const newImageTag = document.createElement('a');
+        newImageTag.href = '#';
+        newImageTag.textContent = '#' + tag;
+        newImageTags.appendChild(newImageTag);
+    }
+
+
+    // Add the tags to the caption.
+    newImageCaption.appendChild(newImageTags);
 
 
     // Add the wrapper to the gallery.
     newImageTile.appendChild(newImageWrapper);
     newImageTile.appendChild(newImageCaption);
+    newImageTile.appendChild(newImageTags);
     gallery.appendChild(newImageTile);
 
     images.push({
