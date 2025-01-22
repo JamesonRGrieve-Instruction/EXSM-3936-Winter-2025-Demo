@@ -8,6 +8,17 @@ const gallery = document.querySelector('#gallery');
 
 const images = [];
 
+searchInput.addEventListener('input', () => {
+    for (const image of images) {
+        if (image.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+            image.tags.some(tag => tag.toLowerCase().includes(searchInput.value.toLowerCase()))) {
+            image.ref.classList.remove('hidden');
+        } else {
+            image.ref.classList.add('hidden');
+        }
+    }
+});
+
 logButton.addEventListener('click', () => {
     console.log(images);
 });
@@ -38,6 +49,10 @@ newImageForm.addEventListener('submit', (event) => {
         newImageTag.href = '#';
         newImageTag.textContent = '#' + tag;
         newImageTags.appendChild(newImageTag);
+        newImageTag.addEventListener('click', () => {
+            searchInput.value = tag;
+            searchInput.dispatchEvent(new Event('input'));
+        })
     }
 
 
@@ -54,9 +69,11 @@ newImageForm.addEventListener('submit', (event) => {
     images.push({
         title: newImageTitleInput.value,
         url: newImageURLInput.value,
-        ref: newImageTile
+        ref: newImageTile,
+        tags: newImageTagsInput.value.split(',')
     })
     // Clear the input fields.
     newImageTitleInput.value = '';
     newImageURLInput.value = '';
+    newImageTagsInput.value = '';
 });
