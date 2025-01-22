@@ -1,7 +1,16 @@
 const newImageTitleInput = document.querySelector('input[name="title"]');
 const newImageURLInput = document.querySelector('input[name="url"]');
+const newImageTagsInput = document.querySelector('input[name="tags"]');
 const newImageForm = document.querySelector('#new-image');
+const logButton = document.querySelector('button');
+const searchInput = document.querySelector('input[name="search"]');
 const gallery = document.querySelector('#gallery');
+
+const images = [];
+
+logButton.addEventListener('click', () => {
+    console.log(images);
+});
 
 newImageForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -27,6 +36,12 @@ newImageForm.addEventListener('submit', (event) => {
     newImageTile.appendChild(newImageWrapper);
     newImageTile.appendChild(newImageCaption);
     gallery.appendChild(newImageTile);
+
+    images.push({
+        title: newImageTitleInput.value,
+        url: newImageURLInput.value,
+        ref: newImageTile
+    })
     // Clear the input fields.
     newImageTitleInput.value = '';
     newImageURLInput.value = '';

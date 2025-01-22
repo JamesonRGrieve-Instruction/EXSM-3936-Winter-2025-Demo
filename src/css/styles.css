@@ -12,6 +12,13 @@ body {
 h1 {
   text-align: center;
 }
+header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  flex-direction: column;
+}
 form {
   display: flex;
   gap: 1rem;
