@@ -11,21 +11,29 @@
 </head>
 
 <body>
-    <header>
-        <h1>EXSM3936 Image Gallery</h1>
-        <div id="search"></div>
-        <form id="new-image">
-            <input type="text" name="title" placeholder="Title">
-            <input type="url" name="url" placeholder="URL">
-            <input type="submit" value="Add">
-        </form>
-    </header>
-    <main>
-        <div id="gallery"></div>
-    </main>
-    <footer>
-        <p>&copy; 2025</p>
-    </footer>
+    <div class="container">
+        <header>
+            <h1>EXSM3936 Image Gallery</h1>
+            <div id="search"></div>
+            <form id="new-image">
+                <input type="text" name="title" placeholder="Title">
+                <input type="url" name="url" placeholder="URL">
+                <input type="submit" value="Add">
+            </form>
+        </header>
+        <main>
+            <div id="gallery">
+                <div class="image">
+                    <div><img src="https://cdn.pixabay.com/photo/2024/06/25/21/42/hd-wallpaper-8853669_1280.png"
+                            alt="Test" title="Test"></div>
+                    <p>A picture of the moon.</p>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2025</p>
+        </footer>
+    </div>
     <script src="js/scripts.js" defer></script>
 </body>
 
