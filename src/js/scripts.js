@@ -33,6 +33,12 @@ newImageForm.addEventListener('submit', (event) => {
     message.classList.remove('hidden');
     // Set the error message text
     message.textContent = 'Title and URL should not be empty';
+  }
+  // Check if image already exists
+  else if (images.some((image) => image.url.toLowerCase().includes(newImageURLInput.value.toLowerCase()))) {
+    message.classList.remove('hidden');
+    // Set the error message text
+    message.textContent = 'This image URL has already been added. Please provide a unique URL.';
   } else {
     // Hides the error message
     message.classList.add('hidden');
