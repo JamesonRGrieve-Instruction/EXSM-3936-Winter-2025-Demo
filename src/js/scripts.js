@@ -117,6 +117,34 @@ class Triangle extends Shape {
         return new Rectangle(this.colour, Math.max(this.base, this.height), Math.max(this.base, this.height));
     }
 }
+class Hexagon extends Shape {
+
+    #sideLength = 200;
+    constructor(colour, sideLength) {
+        super(colour);
+        this.sideLength = sideLength || this.sideLength;
+    }
+    get sideLength() {
+        return this.#sideLength.toFixed(2);
+    }
+    set sideLength(value) {
+        if (value <= 0) {
+            throw new Error("Side length must be greater than zero.");
+        }
+        else {
+            this.#sideLength = Number(value);
+        }
+    }
+    get perimeter() {
+        return this.sideLength * 6;
+    }
+    get area() {
+        return (3 * Math.sqrt(3) / 2) * Math.pow(this.sideLength, 2);
+    }
+    contain() {
+        return new Rectangle(this.colour, this.sideLength * 2, this.sideLength * 2);
+    }
+}
 class Circle extends Shape {
     #radius = 200;
     constructor(colour, radius) {
@@ -171,7 +199,7 @@ async function main() {
     const shapes = [];
     let choice;
     do {
-        output("Select a Shape to Create\n1. Rectangle\n2. Triangle\n3. Circle\n0. Exit\n\n");
+        output("Select a Shape to Create\n1. Rectangle\n2. Triangle\n3. Circle\n4. Hexagon\n0. Exit\n\n");
         choice = (await input("Enter your choice: ")).trim();
         if (choice === "1") {
             shapes.push(new Rectangle("Black", await input("Enter the length of the rectangle: "), await input("Enter the width of the rectangle: ")));
@@ -183,6 +211,10 @@ async function main() {
         }
         else if (choice === "3") {
             shapes.push(new Circle("Black", await input("Enter the radius of the circle: ")));
+            outputShapes(shapes);
+        }
+        else if (choice === "4") {
+            shapes.push(new Hexagon("Black", await input("Enter the side length of the hexagon: ")));
             outputShapes(shapes);
         }
         else if (choice === "0") {
