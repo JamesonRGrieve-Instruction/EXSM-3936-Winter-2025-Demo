@@ -221,31 +221,28 @@ async function main() {
         choice = (await input("Enter your choice: ")).trim();
         try {
             if (choice === "1") {
+                const newRectangle = new Rectangle("Black");
                 let valid = false;
-                let length;
-                let width;
                 do {
-                    length = await input("Enter the length of the rectangle: ");
-                    if (length <= 0 || isNaN(length)) {
-                        output("Length must be a number greater than zero.", "error");
-                    }
-                    else {
+                    try {
+                        newRectangle.length = await input("Enter the length of the rectangle: ");
                         valid = true;
                     }
-                }
-                while (!valid);
+                    catch (e) {
+                        output(e.message, "error");
+                    }
+                } while (!valid);
                 valid = false;
                 do {
-                    width = await input("Enter the width of the rectangle: ");
-                    if (width <= 0 || isNaN(width)) {
-                        output("Width must be a number greater than zero.", "error");
-                    }
-                    else {
+                    try {
+                        newRectangle.width = await input("Enter the width of the rectangle: ");
                         valid = true;
                     }
-                }
-                while (!valid);
-                shapes.push(new Rectangle("Black", length, width));
+                    catch (e) {
+                        output(e.message, "error");
+                    }
+                } while (!valid);
+                shapes.push(newRectangle);
                 outputShapes(shapes);
             }
             else if (choice === "2") {
