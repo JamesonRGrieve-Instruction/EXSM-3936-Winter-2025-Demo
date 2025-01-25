@@ -1,10 +1,7 @@
-const myList = document.querySelector('ul');
-const myInput = document.querySelector('input');
-const myButton = document.querySelector('button');
+const myButtons = document.querySelectorAll('button');
 
-myButton.addEventListener('click', () => {
-    const newListItem = document.createElement('li');
-    newListItem.textContent = myInput.value;
-    myList.appendChild(newListItem);
-    myInput.value = '';
-});
+for (const myButton of myButtons) {
+    myButton.addEventListener('click', () => {
+        myButton.remove();
+    });
+}
