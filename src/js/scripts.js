@@ -4,27 +4,45 @@ const newImageTagsInput = document.querySelector('input[name="tags"]');
 const newImageForm = document.querySelector('#new-image');
 const logButton = document.querySelector('button');
 const searchInput = document.querySelector('input[name="search"]');
+const message = document.querySelector('.error-message');
 const gallery = document.querySelector('#gallery');
 
 const images = [];
 
 searchInput.addEventListener('input', () => {
-    for (const image of images) {
-        if (image.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-            image.tags.some(tag => tag.toLowerCase().includes(searchInput.value.toLowerCase()))) {
-            image.ref.classList.remove('hidden');
-        } else {
-            image.ref.classList.add('hidden');
-        }
+  for (const image of images) {
+    if (
+      image.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+      image.tags.some((tag) => tag.toLowerCase().includes(searchInput.value.toLowerCase()))
+    ) {
+      image.ref.classList.remove('hidden');
+    } else {
+      image.ref.classList.add('hidden');
     }
+  }
 });
 
 logButton.addEventListener('click', () => {
-    console.log(images);
+  console.log(images);
 });
 
 newImageForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+  event.preventDefault();
+  // Check if both title and URL are empty
+  if (newImageTitleInput.value.trim() === '' || newImageURLInput.value.trim() === '') {
+    message.classList.remove('hidden');
+    // Set the error message text
+    message.textContent = 'Title and URL should not be empty';
+  }
+  // Check if image already exists
+  else if (images.some((image) => image.url.toLowerCase().includes(newImageURLInput.value.toLowerCase()))) {
+    message.classList.remove('hidden');
+    // Set the error message text
+    message.textContent = 'This image URL has already been added. Please provide a unique URL.';
+  } else {
+    // Hides the error message
+    message.classList.add('hidden');
+
     // Create a div to wrap the image.
     const newImageTile = document.createElement('div');
     const newImageWrapper = document.createElement('div');
@@ -45,20 +63,18 @@ newImageForm.addEventListener('submit', (event) => {
     const newImageTags = document.createElement('p');
     newImageTags.classList.add('tags');
     for (const tag of newImageTagsInput.value.split(',')) {
-        const newImageTag = document.createElement('a');
-        newImageTag.href = '#';
-        newImageTag.textContent = '#' + tag;
-        newImageTags.appendChild(newImageTag);
-        newImageTag.addEventListener('click', () => {
-            searchInput.value = tag;
-            searchInput.dispatchEvent(new Event('input'));
-        })
+      const newImageTag = document.createElement('a');
+      newImageTag.href = '#';
+      newImageTag.textContent = '#' + tag;
+      newImageTags.appendChild(newImageTag);
+      newImageTag.addEventListener('click', () => {
+        searchInput.value = tag;
+        searchInput.dispatchEvent(new Event('input'));
+      });
     }
-
 
     // Add the tags to the caption.
     newImageCaption.appendChild(newImageTags);
-
 
     // Add the wrapper to the gallery.
     newImageTile.appendChild(newImageWrapper);
@@ -67,13 +83,14 @@ newImageForm.addEventListener('submit', (event) => {
     gallery.appendChild(newImageTile);
 
     images.push({
-        title: newImageTitleInput.value,
-        url: newImageURLInput.value,
-        ref: newImageTile,
-        tags: newImageTagsInput.value.split(',')
-    })
+      title: newImageTitleInput.value,
+      url: newImageURLInput.value,
+      ref: newImageTile,
+      tags: newImageTagsInput.value.split(','),
+    });
     // Clear the input fields.
     newImageTitleInput.value = '';
     newImageURLInput.value = '';
     newImageTagsInput.value = '';
+  }
 });
