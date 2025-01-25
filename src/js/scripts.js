@@ -1,139 +1,185 @@
 // eslint-disable-next-line no-unused-vars
 /* global output, input */
-class WritingImplement {
-  #brand = "Dixon"; // Private fields prefixed with # CANNOT be changed from outside the object/class. This means we know 100% all values in it (so long as you only set it in the setter) MUST be validated according to said setter.
-  constructor(brand) {
-    if (this.constructor === WritingImplement) {
-      throw new Error("WritingImplement is an abstract class.");
+class Shape {
+    #colour = "Black"; // Private fields prefixed with # CANNOT be changed from outside the object/class. This means we know 100% all values in it (so long as you only set it in the setter) MUST be validated according to said setter.
+    constructor(colour) {
+        if (this.constructor === Shape) {
+            throw new Error("Shape is an abstract class.");
+        }
+        this.#colour = colour || this.#colour;
     }
-    this.#brand = brand || this.#brand;
-  }
-  get brand() {
-    return this.#brand;
-  }
-  set brand(value) {
-    this.#brand = value;
-  }
-  write(numLetters) {
-    throw new Error(`write() is an abstract method and must be implemented in the ${this.constructor.name} class.`);
-  }
+    get colour() {
+        return this.#colour;
+    }
+    set colour(value) {
+        this.#colour = value;
+    }
+    get perimeter() {
+        throw new Error(`perimeter() is an abstract property and must be implemented in the ${this.constructor.name} class.`);
+    }
+    get area() {
+        throw new Error(`area() is an abstract property and must be implemented in the ${this.constructor.name} class.`);
+    }
+    contain() {
+        throw new Error(`contain() is an abstract method and must be implemented in the ${this.constructor.name} class.`);
+    }
 }
 
-class Pencil extends WritingImplement {
-  #lengthMM = 200;
-  constructor(brand, lengthMM) {
-    super(brand);
-    this.lengthMM = lengthMM || this.lengthMM;
-  }
-  get lengthMM() {
-    return this.#lengthMM.toFixed(2);
-  }
-  set lengthMM(value) {
-    if (value < 0) {
-      throw new Error("Ink level must be zero or more.");
-    }
-    else {
-      this.#lengthMM = Number(value);
-    }
-  }
-  write(numLetters) {
-    try {
-      this.lengthMM -= numLetters * 0.05;
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
+class Rectangle extends Shape {
+    #length = 200;
+    #width = 200;
+    constructor(colour, length, width) {
+        super(colour);
+        this.length = length || this.length;
+        this.width = width || this.width;
 
-  toString() {
-    return JSON.stringify({
-      ...this,
-      brand: this.brand,
-      lengthMM: this.lengthMM
-    }, null, 4); // This number is the indentation
-  }
-}
-class Pen extends WritingImplement {
-  #colour = "black";
-  #inkAmountML = 150;
-  constructor(brand, colour, inkAmountML) {
-    super(brand);
-    this.colour = colour || this.colour;
-    this.inkAmountML = inkAmountML || this.inkAmountML;
-  }
-  get inkAmountWithUnits() {
-    return `${this.inkAmountML}ml`;
-  }
-  get colour() {
-    return this.#colour;
-  }
-  set colour(value) {
-    this.#colour = value;
-  }
-  get inkAmountML() {
-    return this.#inkAmountML.toFixed(2);
-  }
-  set inkAmountML(value) {
-    if (value < 0) {
-      throw new Error("Ink level must be zero or more.");
     }
-    else {
-      this.#inkAmountML = Number(value);
+    get length() {
+        return this.#length.toFixed(2);
     }
-  }
-  write(numLetters) {
-    try {
-      this.inkAmountML -= numLetters * 0.1;
+    set length(value) {
+        if (value <= 0) {
+            throw new Error("Length must be greater than zero.");
+        }
+        else {
+            this.#length = Number(value);
+        }
     }
-    catch (error) {
-      console.log(error);
+    get width() {
+        return this.#width.toFixed(2);
     }
-  }
+    set width(value) {
+        if (value <= 0) {
+            throw new Error("Width must be greater than zero.");
+        }
+        else {
+            this.#width = Number(value);
+        }
+    }
+    get isSquare() {
+        return this.length === this.width;
+    }
+    get perimeter() {
+        return (this.length * 2) + (this.width * 2);
+    }
+    get area() {
+        return this.length * this.width;
+    }
+    contain() {
 
-  toString() {
-    return JSON.stringify({
-      ...this,
-      brand: this.brand,
-      colour: this.colour,
-      inkAmountML: this.inkAmountML
-    }, null, 4); // This number is the indentation
-  }
+    }
 }
-class PaintBrush extends WritingImplement {
-  constructor(brand) {
-    super(brand);
-  }
+class Triangle extends Shape {
+    #base = 200;
+    #height = 200;
+    constructor(colour, base, height) {
+        super(colour);
+        this.base = base || this.base;
+        this.height = height || this.height;
+
+    }
+    get base() {
+        return this.#base.toFixed(2);
+    }
+    set base(value) {
+        if (value <= 0) {
+            throw new Error("Base must be greater than zero.");
+        }
+        else {
+            this.#base = Number(value);
+        }
+    }
+    get height() {
+        return this.#height.toFixed(2);
+    }
+    set height(value) {
+        if (value <= 0) {
+            throw new Error("Height must be greater than zero.");
+        }
+        else {
+            this.#height = Number(value);
+        }
+    }
+    get perimeter() {
+        // Calculate half the base
+        const halfBase = this.base / 2;
+
+        // Calculate the length of the equal sides using the Pythagorean theorem
+        const sideLength = Math.sqrt(Math.pow(halfBase, 2) + Math.pow(this.height, 2));
+
+        // Calculate the perimeter
+        return this.base + 2 * sideLength;
+    }
+    get area() {
+        return (this.base * this.height) / 2;
+    }
+    contain() {
+
+    }
+}
+class Circle extends Shape {
+    #radius = 200;
+    constructor(colour, radius) {
+        super(colour);
+        this.radius = radius || this.radius;
+    }
+    get radius() {
+        return this.#radius.toFixed(2);
+    }
+    set radius(value) {
+        if (value <= 0) {
+            throw new Error("Radius must be greater than zero.");
+        }
+        else {
+            this.#radius = Number(value);
+        }
+    }
+    get diameter() {
+        return this.radius * 2;
+    }
+    get circumference() {
+        return this.diameter * Math.PI;
+    }
+    get perimeter() {
+        return this.circumference;
+    }
+    get area() {
+        return Math.PI * Math.pow(this.radius, 2);
+    }
+    contain() {
+
+    }
 }
 
 // eslint-disable-next-line no-unused-vars
 async function main() {
-  const myPencilsAndPens = [
-    new Pencil(),
-    new Pen(),
-    new PaintBrush(),
-    new Pencil()
-  ];
-  const myPen = new Pen();
-  output(myPen.inkAmountWithUnits);
-  for (const item of myPencilsAndPens) {
-    item.write(100);
-    item.write(42);
-    item.write(200);
-    output(item);
-  }
-  // const myPen = new Pen();
-  // myPen.write(100);
-  // myPen.write(42);
-  // myPen.write(200);
-  // output(myPen);
-  // output(myPen.inkAmountML);
+    const myPencilsAndPens = [
+        new Rectangle(),
+        new Triangle(),
+        new Circle(),
+        new Rectangle()
+    ];
+    const myPen = new Triangle();
+    output(myPen.inkAmountWithUnits);
+    for (const item of myPencilsAndPens) {
+        item.write(100);
+        item.write(42);
+        item.write(200);
+        output(item);
+    }
+    // const myPen = new Pen();
+    // myPen.write(100);
+    // myPen.write(42);
+    // myPen.write(200);
+    // output(myPen);
+    // output(myPen.inkAmountML);
 
 
-  // const myPencil = new Pencil();
-  // myPencil.write(100);
-  // myPencil.write(42);
-  // myPencil.write(200);
-  // output(myPencil);
-  // output(myPencil.lengthMM);
+    // const myPencil = new Pencil();
+    // myPencil.write(100);
+    // myPencil.write(42);
+    // myPencil.write(200);
+    // output(myPencil);
+    // output(myPencil.lengthMM);
 }
 // module.exports = { Pen, Pencil, WritingImplement };
