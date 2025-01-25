@@ -211,11 +211,11 @@ function outputShapes(shapes) {
     output(`Total Area: ${areaSum.toFixed(2)}`);
     output(`Total Area of Containing Squares: ${containingAreaSum.toFixed(2)}`);
 }
-async function populateProperty(shape, setter, prompt) {
+async function populateProperty(setter, prompt) {
     let valid = false;
     do {
         try {
-            shape[setter] = await input(prompt);
+            setter(await input(prompt));
             valid = true;
         }
         catch (e) {
@@ -234,27 +234,27 @@ async function main() {
         try {
             if (choice === "1") {
                 const newRectangle = new Rectangle("Black");
-                await populateProperty(newRectangle, "length", "Enter the length of the rectangle: ");
-                await populateProperty(newRectangle, "width", "Enter the width of the rectangle: ");
+                await populateProperty(newRectangle, (value) => { newRectangle.length = value }, "Enter the length of the rectangle: ");
+                await populateProperty(newRectangle, (value) => { newRectangle.width = value }, "Enter the width of the rectangle: ");
                 shapes.push(newRectangle);
                 outputShapes(shapes);
             }
             else if (choice === "2") {
                 const newTriangle = new Triangle("Black");
-                await populateProperty(newTriangle, "base", "Enter the base of the triangle: ");
-                await populateProperty(newTriangle, "height", "Enter the height of the triangle: ");
+                await populateProperty(newTriangle, (value) => { newRectangle.base = value }, "Enter the base of the triangle: ");
+                await populateProperty(newTriangle, (value) => { newRectangle.height = value }, "Enter the height of the triangle: ");
                 shapes.push(newTriangle);
                 outputShapes(shapes);
             }
             else if (choice === "3") {
                 const newCircle = new Circle("Black");
-                await populateProperty(newCircle, "radius", "Enter the radius of the circle: ");
+                await populateProperty(newCircle, (value) => { newRectangle.radius = value }, "Enter the radius of the circle: ");
                 shapes.push(newCircle);
                 outputShapes(shapes);
             }
             else if (choice === "4") {
                 const newHexagon = new Hexagon("Black");
-                await populateProperty(newHexagon, "sideLength", "Enter the side length of the hexagon: ");
+                await populateProperty(newHexagon, (value) => { newRectangle.sideLength = value }, "Enter the side length of the hexagon: ");
                 shapes.push(newHexagon);
                 outputShapes(shapes);
             }
