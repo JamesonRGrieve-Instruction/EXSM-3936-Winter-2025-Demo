@@ -41,6 +41,9 @@ class Rectangle extends Shape {
         if (value <= 0) {
             throw new Error("Length must be greater than zero.");
         }
+        else if (isNaN(value)) {
+            throw new Error("Length must be a number.");
+        }
         else {
             this.#length = Number(value);
         }
@@ -51,6 +54,9 @@ class Rectangle extends Shape {
     set width(value) {
         if (value <= 0) {
             throw new Error("Width must be greater than zero.");
+        }
+        else if (isNaN(value)) {
+            throw new Error("Width must be a number.");
         }
         else {
             this.#width = Number(value);
@@ -85,6 +91,9 @@ class Triangle extends Shape {
         if (value <= 0) {
             throw new Error("Base must be greater than zero.");
         }
+        else if (isNaN(value)) {
+            throw new Error("Base must be a number.");
+        }
         else {
             this.#base = Number(value);
         }
@@ -95,6 +104,9 @@ class Triangle extends Shape {
     set height(value) {
         if (value <= 0) {
             throw new Error("Height must be greater than zero.");
+        }
+        else if (isNaN(value)) {
+            throw new Error("Height must be a number.");
         }
         else {
             this.#height = Number(value);
@@ -131,6 +143,9 @@ class Hexagon extends Shape {
         if (value <= 0) {
             throw new Error("Side length must be greater than zero.");
         }
+        else if (isNaN(value)) {
+            throw new Error("Side length must be a number.");
+        }
         else {
             this.#sideLength = Number(value);
         }
@@ -157,6 +172,9 @@ class Circle extends Shape {
     set radius(value) {
         if (value <= 0) {
             throw new Error("Radius must be greater than zero.");
+        }
+        else if (isNaN(value)) {
+            throw new Error("Radius must be a number.");
         }
         else {
             this.#radius = Number(value);
@@ -201,26 +219,55 @@ async function main() {
     do {
         output("Select a Shape to Create\n1. Rectangle\n2. Triangle\n3. Circle\n4. Hexagon\n0. Exit\n\n");
         choice = (await input("Enter your choice: ")).trim();
-        if (choice === "1") {
-            shapes.push(new Rectangle("Black", await input("Enter the length of the rectangle: "), await input("Enter the width of the rectangle: ")));
-            outputShapes(shapes);
+        try {
+            if (choice === "1") {
+                let valid = false;
+                let length;
+                let width;
+                do {
+                    length = await input("Enter the length of the rectangle: ");
+                    if (length <= 0 || isNaN(length)) {
+                        output("Length must be a number greater than zero.", "error");
+                    }
+                    else {
+                        valid = true;
+                    }
+                }
+                while (!valid);
+                valid = false;
+                do {
+                    width = await input("Enter the width of the rectangle: ");
+                    if (width <= 0 || isNaN(width)) {
+                        output("Width must be a number greater than zero.", "error");
+                    }
+                    else {
+                        valid = true;
+                    }
+                }
+                while (!valid);
+                shapes.push(new Rectangle("Black", length, width));
+                outputShapes(shapes);
+            }
+            else if (choice === "2") {
+                shapes.push(new Triangle("Black", await input("Enter the base of the triangle: "), await input("Enter the height of the triangle: ")));
+                outputShapes(shapes);
+            }
+            else if (choice === "3") {
+                shapes.push(new Circle("Black", await input("Enter the radius of the circle: ")));
+                outputShapes(shapes);
+            }
+            else if (choice === "4") {
+                shapes.push(new Hexagon("Black", await input("Enter the side length of the hexagon: ")));
+                outputShapes(shapes);
+            }
+            else if (choice === "0") {
+            }
+            else {
+                output("Invalid choice. Please try again.", "error");
+            }
         }
-        else if (choice === "2") {
-            shapes.push(new Triangle("Black", await input("Enter the base of the triangle: "), await input("Enter the height of the triangle: ")));
-            outputShapes(shapes);
-        }
-        else if (choice === "3") {
-            shapes.push(new Circle("Black", await input("Enter the radius of the circle: ")));
-            outputShapes(shapes);
-        }
-        else if (choice === "4") {
-            shapes.push(new Hexagon("Black", await input("Enter the side length of the hexagon: ")));
-            outputShapes(shapes);
-        }
-        else if (choice === "0") {
-        }
-        else {
-            output("Invalid choice. Please try again.", "error");
+        catch (e) {
+            output("Invalid input for selected shape. Please try again.", "error");
         }
     } while (choice !== "0");
 }
