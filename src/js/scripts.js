@@ -66,7 +66,7 @@ class Rectangle extends Shape {
         return this.length * this.width;
     }
     contain() {
-
+        return new Rectangle(this.colour, Math.max(this.length, this.width), Math.max(this.length, this.width));
     }
 }
 class Triangle extends Shape {
@@ -114,7 +114,7 @@ class Triangle extends Shape {
         return (this.base * this.height) / 2;
     }
     contain() {
-
+        return new Rectangle(this.colour, Math.max(this.base, this.height), Math.max(this.base, this.height));
     }
 }
 class Circle extends Shape {
@@ -147,39 +147,48 @@ class Circle extends Shape {
         return Math.PI * Math.pow(this.radius, 2);
     }
     contain() {
-
+        return new Rectangle(this.colour, this.diameter, this.diameter);
     }
+}
+
+function outputShapes(shapes) {
+    let perimeterSum = 0;
+    let areaSum = 0;
+    let containingAreaSum = 0;
+    for (const shape of shapes) {
+        perimeterSum += shape.perimeter;
+        areaSum += shape.area;
+        containingAreaSum += shape.contain().area;
+    }
+
+    output(`Total Perimeter: ${perimeterSum.toFixed(2)}`);
+    output(`Total Area: ${areaSum.toFixed(2)}`);
+    output(`Total Area of Containing Squares: ${containingAreaSum.toFixed(2)}`);
 }
 
 // eslint-disable-next-line no-unused-vars
 async function main() {
-    const myPencilsAndPens = [
-        new Rectangle(),
-        new Triangle(),
-        new Circle(),
-        new Rectangle()
-    ];
-    const myPen = new Triangle();
-    output(myPen.inkAmountWithUnits);
-    for (const item of myPencilsAndPens) {
-        item.write(100);
-        item.write(42);
-        item.write(200);
-        output(item);
-    }
-    // const myPen = new Pen();
-    // myPen.write(100);
-    // myPen.write(42);
-    // myPen.write(200);
-    // output(myPen);
-    // output(myPen.inkAmountML);
-
-
-    // const myPencil = new Pencil();
-    // myPencil.write(100);
-    // myPencil.write(42);
-    // myPencil.write(200);
-    // output(myPencil);
-    // output(myPencil.lengthMM);
+    const shapes = [];
+    let choice;
+    do {
+        output("Select a Shape to Create\n1. Rectangle\n2. Triangle\n3. Circle\n0. Exit\n\n");
+        choice = (await input("Enter your choice: ")).trim();
+        if (choice === "1") {
+            shapes.push(new Rectangle("Black", await input("Enter the length of the rectangle: "), await input("Enter the width of the rectangle: ")));
+            outputShapes(shapes);
+        }
+        else if (choice === "2") {
+            shapes.push(new Triangle("Black", await input("Enter the base of the triangle: "), await input("Enter the height of the triangle: ")));
+            outputShapes(shapes);
+        }
+        else if (choice === "3") {
+            shapes.push(new Circle("Black", await input("Enter the radius of the circle: ")));
+            outputShapes(shapes);
+        }
+        else if (choice === "0") {
+        }
+        else {
+            output("Invalid choice. Please try again.", "error");
+        }
+    } while (choice !== "0");
 }
-// module.exports = { Pen, Pencil, WritingImplement };
