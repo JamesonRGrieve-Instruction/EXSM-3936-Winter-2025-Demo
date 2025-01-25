@@ -211,6 +211,18 @@ function outputShapes(shapes) {
     output(`Total Area: ${areaSum.toFixed(2)}`);
     output(`Total Area of Containing Squares: ${containingAreaSum.toFixed(2)}`);
 }
+async function populateProperty(shape, setter, prompt) {
+    let valid = false;
+    do {
+        try {
+            shape[setter] = await input(prompt);
+            valid = true;
+        }
+        catch (e) {
+            output(e.message, "error");
+        }
+    } while (!valid);
+}
 
 // eslint-disable-next-line no-unused-vars
 async function main() {
@@ -222,39 +234,28 @@ async function main() {
         try {
             if (choice === "1") {
                 const newRectangle = new Rectangle("Black");
-                let valid = false;
-                do {
-                    try {
-                        newRectangle.length = await input("Enter the length of the rectangle: ");
-                        valid = true;
-                    }
-                    catch (e) {
-                        output(e.message, "error");
-                    }
-                } while (!valid);
-                valid = false;
-                do {
-                    try {
-                        newRectangle.width = await input("Enter the width of the rectangle: ");
-                        valid = true;
-                    }
-                    catch (e) {
-                        output(e.message, "error");
-                    }
-                } while (!valid);
+                await populateProperty(newRectangle, "length", "Enter the length of the rectangle: ");
+                await populateProperty(newRectangle, "width", "Enter the width of the rectangle: ");
                 shapes.push(newRectangle);
                 outputShapes(shapes);
             }
             else if (choice === "2") {
-                shapes.push(new Triangle("Black", await input("Enter the base of the triangle: "), await input("Enter the height of the triangle: ")));
+                const newTriangle = new Triangle("Black");
+                await populateProperty(newTriangle, "base", "Enter the base of the triangle: ");
+                await populateProperty(newTriangle, "height", "Enter the height of the triangle: ");
+                shapes.push(newTriangle);
                 outputShapes(shapes);
             }
             else if (choice === "3") {
-                shapes.push(new Circle("Black", await input("Enter the radius of the circle: ")));
+                const newCircle = new Circle("Black");
+                await populateProperty(newCircle, "radius", "Enter the radius of the circle: ");
+                shapes.push(newCircle);
                 outputShapes(shapes);
             }
             else if (choice === "4") {
-                shapes.push(new Hexagon("Black", await input("Enter the side length of the hexagon: ")));
+                const newHexagon = new Hexagon("Black");
+                await populateProperty(newHexagon, "sideLength", "Enter the side length of the hexagon: ");
+                shapes.push(newHexagon);
                 outputShapes(shapes);
             }
             else if (choice === "0") {
@@ -265,6 +266,7 @@ async function main() {
         }
         catch (e) {
             output("Invalid input for selected shape. Please try again.", "error");
+            throw e;
         }
     } while (choice !== "0");
 }
