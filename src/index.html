@@ -10,21 +10,16 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body>
+<body class="menu">
     <div class="container">
         <header>
             <h1>EXSM3936 Image Gallery</h1>
-            <p class="error-message hidden"></p>
+
             <div id="search">
                 <input type="text" name="search" placeholder="Search">
             </div>
-            <form id="new-image">
-                <input type="text" name="title" placeholder="Title">
-                <input type="text" name="tags" placeholder="Tags">
-                <input type="url" name="url" placeholder="URL">
-                <input type="submit" value="Add">
-            </form>
-            <button>Log Images</button>
+
+
         </header>
         <main>
             <div id="gallery">
@@ -34,7 +29,19 @@
         <footer>
             <p>&copy; 2025</p>
         </footer>
+
     </div>
+    <div id="toggle-button"></div>
+    <aside>
+        <form id="new-image">
+            <input type="text" name="title" placeholder="Title">
+            <input type="text" name="tags" placeholder="Tags">
+            <input type="url" name="url" placeholder="URL">
+            <input type="submit" value="Add">
+        </form>
+        <p class="error-message hidden"></p>
+        <button>Log Images</button>
+    </aside>
     <script src="js/scripts.js" defer></script>
 </body>
 

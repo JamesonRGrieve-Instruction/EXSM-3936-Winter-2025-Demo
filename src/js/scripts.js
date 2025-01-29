@@ -94,3 +94,8 @@ newImageForm.addEventListener('submit', (event) => {
     newImageTagsInput.value = '';
   }
 });
+
+
+document.querySelector('#toggle-button').addEventListener('click', () => {
+  document.body.classList.toggle('menu');
+});
