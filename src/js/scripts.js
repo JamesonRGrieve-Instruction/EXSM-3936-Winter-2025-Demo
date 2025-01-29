@@ -7,8 +7,10 @@ const searchInput = document.querySelector('input[name="search"]');
 const message = document.querySelector('.error-message');
 const gallery = document.querySelector('#gallery');
 
-const images = [];
-
+const images = JSON.parse(localStorage.getItem('images')) || [];
+for (const image of images) {
+  image.ref = addImage(image.title, image.tags.join(','), image.url);
+}
 searchInput.addEventListener('input', () => {
   for (const image of images) {
     if (
@@ -25,6 +27,49 @@ searchInput.addEventListener('input', () => {
 logButton.addEventListener('click', () => {
   console.log(images);
 });
+
+function addImage(title, tags, url) {
+  // Create a div to wrap the image.
+  const newImageTile = document.createElement('div');
+  const newImageWrapper = document.createElement('div');
+  // Add the 'image' class to the div.
+  newImageTile.classList.add('image');
+  // Create the image element.
+  const newImage = document.createElement('img');
+  // Set the image source and alt text.
+  newImage.src = url;
+  newImage.alt = title;
+  newImage.title = title;
+  // Add the image to the wrapper.
+  newImageWrapper.appendChild(newImage);
+  // Create the caption element.
+  const newImageCaption = document.createElement('p');
+  newImageCaption.textContent = title;
+  // Create the tags element.
+  const newImageTags = document.createElement('p');
+  newImageTags.classList.add('tags');
+  for (const tag of tags.split(',')) {
+    const newImageTag = document.createElement('a');
+    newImageTag.href = '#';
+    newImageTag.textContent = '#' + tag;
+    newImageTags.appendChild(newImageTag);
+    newImageTag.addEventListener('click', () => {
+      searchInput.value = tag;
+      searchInput.dispatchEvent(new Event('input'));
+    });
+  }
+
+  // Add the tags to the caption.
+  newImageCaption.appendChild(newImageTags);
+
+  // Add the wrapper to the gallery.
+  newImageTile.appendChild(newImageWrapper);
+  newImageTile.appendChild(newImageCaption);
+  newImageTile.appendChild(newImageTags);
+  gallery.appendChild(newImageTile);
+
+  return newImageTile;
+}
 
 newImageForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -43,51 +88,16 @@ newImageForm.addEventListener('submit', (event) => {
     // Hides the error message
     message.classList.add('hidden');
 
-    // Create a div to wrap the image.
-    const newImageTile = document.createElement('div');
-    const newImageWrapper = document.createElement('div');
-    // Add the 'image' class to the div.
-    newImageTile.classList.add('image');
-    // Create the image element.
-    const newImage = document.createElement('img');
-    // Set the image source and alt text.
-    newImage.src = newImageURLInput.value;
-    newImage.alt = newImageTitleInput.value;
-    newImage.title = newImageTitleInput.value;
-    // Add the image to the wrapper.
-    newImageWrapper.appendChild(newImage);
-    // Create the caption element.
-    const newImageCaption = document.createElement('p');
-    newImageCaption.textContent = newImageTitleInput.value;
-    // Create the tags element.
-    const newImageTags = document.createElement('p');
-    newImageTags.classList.add('tags');
-    for (const tag of newImageTagsInput.value.split(',')) {
-      const newImageTag = document.createElement('a');
-      newImageTag.href = '#';
-      newImageTag.textContent = '#' + tag;
-      newImageTags.appendChild(newImageTag);
-      newImageTag.addEventListener('click', () => {
-        searchInput.value = tag;
-        searchInput.dispatchEvent(new Event('input'));
-      });
-    }
 
-    // Add the tags to the caption.
-    newImageCaption.appendChild(newImageTags);
-
-    // Add the wrapper to the gallery.
-    newImageTile.appendChild(newImageWrapper);
-    newImageTile.appendChild(newImageCaption);
-    newImageTile.appendChild(newImageTags);
-    gallery.appendChild(newImageTile);
 
     images.push({
       title: newImageTitleInput.value,
       url: newImageURLInput.value,
-      ref: newImageTile,
+      ref: addImage(newImageTitleInput.value, newImageTagsInput.value, newImageURLInput.value),
       tags: newImageTagsInput.value.split(','),
     });
+
+    localStorage.setItem('images', JSON.stringify(images));
     // Clear the input fields.
     newImageTitleInput.value = '';
     newImageURLInput.value = '';
