@@ -7,7 +7,7 @@ const searchInput = document.querySelector('input[name="search"]');
 const message = document.querySelector('.error-message');
 const gallery = document.querySelector('#gallery');
 
-const images = JSON.parse(localStorage.getItem('images')) || [];
+let images = JSON.parse(localStorage.getItem('images')) || [];
 for (const image of images) {
   image.ref = addImage(image.title, image.tags.join(','), image.url);
 }
@@ -59,6 +59,15 @@ function addImage(title, tags, url) {
     });
   }
 
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Delete';
+  deleteButton.addEventListener('click', () => {
+    newImageTile.remove();
+    images = images.filter((image) => image.ref !== newImageTile);
+    localStorage.setItem('images', JSON.stringify(images));
+  });
+
+
   // Add the tags to the caption.
   newImageCaption.appendChild(newImageTags);
 
@@ -66,6 +75,7 @@ function addImage(title, tags, url) {
   newImageTile.appendChild(newImageWrapper);
   newImageTile.appendChild(newImageCaption);
   newImageTile.appendChild(newImageTags);
+  newImageTile.appendChild(deleteButton);
   gallery.appendChild(newImageTile);
 
   return newImageTile;
