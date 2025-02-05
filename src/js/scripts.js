@@ -2,23 +2,12 @@
 /* global output, input */
 // eslint-disable-next-line no-unused-vars
 async function main() {
-  const request1 = wait(3000, () => {
-    output("First request done.");
-  });
-  const request2 = wait(5000, () => {
-    output("Second request done.");
-  });
-  const request3 = wait(2000, () => {
-    output("Third request done.");
-  });
-
-
-  await Promise.all([request1, request2, request3]);
-
+  const response = await fetch("https://randomuser.me/api/");
+  const data = await response.json();
+  const person = data.results[0];
+  output("Name: " + person.name.first + " " + person.name.last);
+  output("Email: " + person.email);
+  output("Phone: " + person.phone);
+  output("Location: " + person.location.city + ", " + person.location.state + ", " + person.location.country);
 }
 
-async function wait(ms, callback) {
-  const timeout = new Promise((res) => setTimeout(res, ms));
-  await timeout;
-  callback();
-}
