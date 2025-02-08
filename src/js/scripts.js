@@ -1,16 +1,25 @@
-const myButtons = document.querySelectorAll('button:not(#create)');
-const createButton = document.querySelector('#create');
+const jokeButton = document.querySelector('#joke');
+const punchLineButton = document.querySelector('#punchLine');
+const jokeText = document.querySelector('#jokeText');
+const punchLineText = document.querySelector('#punchLineText');
 
-for (const myButton of myButtons) {
-    myButton.addEventListener('click', () => {
-        myButton.remove();
+jokeButton.addEventListener('click', () => {
+  punchLineButton.classList.add('hidden');
+  punchLineText.classList.add('hidden');
+  fetch('https://v2.jokeapi.dev/joke/Programming?safe-mode')
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.type === 'twopart') {
+        punchLineButton.classList.remove('hidden');
+        jokeText.textContent = data.setup;
+        punchLineText.textContent = data.delivery;
+      } else {
+        jokeText.textContent = data.joke;
+        punchLineButton.classList.add('hidden');
+      }
     });
-}
-createButton.addEventListener('click', () => {
-    const newButton = document.createElement('button');
-    newButton.textContent = 'Remove Me!';
-    newButton.addEventListener('click', () => {
-        newButton.remove();
-    });
-    document.body.appendChild(newButton);
+});
+
+punchLineButton.addEventListener('click', () => {
+  punchLineText.classList.remove('hidden');
 });
