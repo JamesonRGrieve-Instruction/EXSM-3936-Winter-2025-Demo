@@ -1,0 +1,16 @@
+ul {
+  padding: 0;
+  list-style: none;
+}
+li {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: start;
+}
+
+input,
+p {
+  margin: 0;
+}
