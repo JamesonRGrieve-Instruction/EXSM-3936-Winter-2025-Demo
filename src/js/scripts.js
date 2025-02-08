@@ -3,7 +3,12 @@ const resetButton = document.getElementById('resetButton');
 const messageLog = document.querySelector('.messageLog');
 const input = document.querySelector('input');
 const timers = [];
-sendButton.addEventListener('click', () => {
+document.querySelector("div:last-of-type").addEventListener('click', () => {
+  console.log("Click div");
+});
+sendButton.addEventListener('click', (e) => {
+  console.log("Click button");
+  e.stopPropagation();
   const message = input.value;
   const newP = document.createElement('p');
   newP.textContent = `[${(new Date().toLocaleTimeString())}] You: ${message}`;
