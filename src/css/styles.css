@@ -1,7 +1,26 @@
-body {
+* {
+  box-sizing: border-box;
+}
+body,
+.messageLog {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+}
+.messageLog {
+  border: 1px solid black;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  min-height: 80vh;
+}
+div:last-of-type {
+  display: flex;
+}
+input,
+button {
+  height: 2rem;
+}
+input {
+  flex-grow: 1;
 }
 button {
   width: 10rem;
