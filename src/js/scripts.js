@@ -19,6 +19,24 @@ function handleClickCopy(event) {
   copy.querySelector('button').addEventListener('click', handleClickCopy);
   (event.target.parentNode.querySelector('input').checked ? completedTodos : pendingTodos).appendChild(copy);
 }
+function handleClickEdit(event) {
+  const targetLI = event.target.parentNode;
+  if (targetLI.querySelector('p')) {
+    const currentText = targetLI.querySelector('p').textContent;
+    const newInput = document.createElement('input');
+    newInput.type = 'text';
+    newInput.value = currentText;
+    targetLI.replaceChild(newInput, targetLI.querySelector('p'));
+    event.target.innerText = 'Save';
+  }
+  else {
+    const currentText = targetLI.querySelector('input[type="text"]').value;
+    const newP = document.createElement('p');
+    newP.innerText = currentText;
+    targetLI.replaceChild(newP, targetLI.querySelector('input[type="text"]'));
+    event.target.innerText = 'Edit';
+  }
+}
 addTodo.addEventListener('click', () => {
   if (input.value.trim() !== '') {
     const newTodo = document.createElement('li');
@@ -32,6 +50,10 @@ addTodo.addEventListener('click', () => {
     const newTodoCopy = document.createElement('button');
     newTodoCopy.textContent = 'Copy';
     newTodo.appendChild(newTodoCopy);
+    const newTodoEdit = document.createElement('button');
+    newTodoEdit.textContent = 'Edit';
+    newTodo.appendChild(newTodoEdit);
+    newTodoEdit.addEventListener('click', handleClickEdit);
     newTodoCopy.addEventListener('click', handleClickCopy);
     newCheck.addEventListener('change', handleClickCheckbox);
     pendingTodos.appendChild(newTodo);
