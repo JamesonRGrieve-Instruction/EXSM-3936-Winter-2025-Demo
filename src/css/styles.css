@@ -14,3 +14,9 @@ input,
 p {
   margin: 0;
 }
+
+.todoThumb {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+}

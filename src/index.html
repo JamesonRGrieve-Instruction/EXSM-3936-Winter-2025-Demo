@@ -12,21 +12,27 @@
 
 <body>
     <main>
-
+        <input id="searchTodos" type="text" placeholder="Search todos" />
         <section>
             <h2>Pending Todos</h2>
+            <button id="sortPendingTodosAlpha">Sort Alphabetically</button>
+            <button id="sortPendingTodosChrono">Sort Chronologically</button>
             <ul id="pendingTodos">
 
             </ul>
         </section>
         <section>
             <h2>Completed Todos</h2>
+            <button id="sortCompletedTodosAlpha">Sort Alphabetically</button>
+            <button id="sortCompletedTodosChrono">Sort Chronologically (Added)</button>
+            <button id="sortCompletedTodosChronoCompleted">Sort Chronologically (Completed)</button>
             <ul id="completedTodos">
 
             </ul>
             <button id="clearCompletedTodos">Clear Completed Todos</button>
         </section>
-        <input type="text" placeholder="Enter a todo">
+        <input id="todoBody" type="text" placeholder="Enter a todo" />
+        <input id="todoThumb" type="text" placeholder="Enter a thumbnail URL" />
         <button id="addTodo">Add Todo</button>
     </main>
     <script src="js/scripts.js" defer></script>
