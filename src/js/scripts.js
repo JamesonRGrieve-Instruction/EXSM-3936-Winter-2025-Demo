@@ -2,22 +2,27 @@ const jokeButton = document.querySelector('#joke');
 const punchLineButton = document.querySelector('#punchLine');
 const jokeText = document.querySelector('#jokeText');
 const punchLineText = document.querySelector('#punchLineText');
-
-jokeButton.addEventListener('click', () => {
+const jokes = [];
+jokeButton.addEventListener('click', async () => {
   punchLineButton.classList.add('hidden');
   punchLineText.classList.add('hidden');
-  fetch('https://v2.jokeapi.dev/joke/Programming?safe-mode')
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.type === 'twopart') {
-        punchLineButton.classList.remove('hidden');
-        jokeText.textContent = data.setup;
-        punchLineText.textContent = data.delivery;
-      } else {
-        jokeText.textContent = data.joke;
-        punchLineButton.classList.add('hidden');
-      }
-    });
+  let chosenJoke;
+  do {
+    await fetch('https://v2.jokeapi.dev/joke/Programming?safe-mode')
+      .then((response) => response.json())
+      .then((data) => {
+        chosenJoke = data;
+      });
+  } while (jokes.includes(chosenJoke.id));
+  if (chosenJoke.type === 'twopart') {
+    punchLineButton.classList.remove('hidden');
+    jokeText.textContent = chosenJoke.setup;
+    punchLineText.textContent = chosenJoke.delivery;
+  } else {
+    jokeText.textContent = chosenJoke.joke;
+    punchLineButton.classList.add('hidden');
+  }
+  jokes.push(chosenJoke.id);
 });
 
 punchLineButton.addEventListener('click', () => {
