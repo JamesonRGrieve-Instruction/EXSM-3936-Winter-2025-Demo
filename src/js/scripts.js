@@ -20,7 +20,20 @@ const sortModesAsc = {
   completedChronoCompleted: true
 };
 
-
+searchTodos.addEventListener('input', () => {
+  console.log([...pendingTodos.children, ...completedTodos.children]);
+  for (const child of [...pendingTodos.children, ...completedTodos.children]) {
+    console.log('Checking', child);
+    if (!child.querySelector('p').textContent.toLowerCase().includes(searchTodos.value.toLowerCase())) {
+      console.log('Hiding', child);
+      child.classList.add('hidden');
+    }
+    else {
+      console.log('Showing', child);
+      child.classList.remove('hidden');
+    }
+  }
+})
 function handleClickCheckbox(event) {
   if (event.target.checked) {
     const target = pendingTodoList.find(todo => todo.ref === event.target.parentNode);
