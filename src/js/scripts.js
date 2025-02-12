@@ -7,7 +7,15 @@ const searchInput = document.querySelector('input[name="search"]');
 const message = document.querySelector('.error-message');
 const gallery = document.querySelector('#gallery');
 
-let images = JSON.parse(localStorage.getItem('images')) || [];
+function loadImages() {
+  return JSON.parse(localStorage.getItem('images')) || [];
+}
+function saveImages(images) {
+  localStorage.setItem('images', JSON.stringify(images));
+}
+
+
+let images = loadImages();
 for (const image of images) {
   image.ref = addImage(image.title, image.tags.join(','), image.url);
 }
@@ -64,7 +72,7 @@ function addImage(title, tags, url) {
   deleteButton.addEventListener('click', () => {
     newImageTile.remove();
     images = images.filter((image) => image.ref !== newImageTile);
-    localStorage.setItem('images', JSON.stringify(images));
+    saveImages(images)
   });
 
 
@@ -107,7 +115,7 @@ newImageForm.addEventListener('submit', (event) => {
       tags: newImageTagsInput.value.split(','),
     });
 
-    localStorage.setItem('images', JSON.stringify(images));
+    saveImages(images)
     // Clear the input fields.
     newImageTitleInput.value = '';
     newImageURLInput.value = '';
