@@ -1,16 +1,14 @@
-const myButtons = document.querySelectorAll('button:not(#create)');
-const createButton = document.querySelector('#create');
+const theNumber = document.getElementById("number");
+const input = document.getElementById("input");
+const submit = document.getElementById("submit");
 
-for (const myButton of myButtons) {
-    myButton.addEventListener('click', () => {
-        myButton.remove();
-    });
+if (localStorage.getItem("theNumber")) {
+  theNumber.textContent = localStorage.getItem("theNumber");
+} else {
+  localStorage.setItem("theNumber", "0");
 }
-createButton.addEventListener('click', () => {
-    const newButton = document.createElement('button');
-    newButton.textContent = 'Remove Me!';
-    newButton.addEventListener('click', () => {
-        newButton.remove();
-    });
-    document.body.appendChild(newButton);
+
+submit.addEventListener("click", () => {
+  theNumber.textContent = Number(theNumber.textContent) + Number(input.value);
+  localStorage.setItem("theNumber", theNumber.textContent);
 });
