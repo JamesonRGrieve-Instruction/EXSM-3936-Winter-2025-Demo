@@ -2,7 +2,8 @@ const search = document.querySelector("#input");
 const go = document.querySelector("#go");
 const output = document.querySelector("#output");
 
-go.addEventListener("click", () => {
+go.addEventListener("click", (e) => {
+  e.preventDefault();
   output.innerHTML = "";
   const pokemon = search.value;
   const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
