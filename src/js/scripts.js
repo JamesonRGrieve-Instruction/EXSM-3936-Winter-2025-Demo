@@ -27,11 +27,15 @@ go.addEventListener("click", () => {
       height.textContent = `Height: ${pokemon.height}`;
       const experience = document.createElement("p");
       experience.textContent = `Base Experience: ${pokemon.base_experience}`;
+      const audio = document.createElement("audio");
+      audio.controls = true;
+      audio.src = pokemon.cries.latest;
       output.appendChild(name);
       output.appendChild(sprite);
       output.appendChild(types);
       output.appendChild(weight);
       output.appendChild(height);
       output.appendChild(experience);
+      output.appendChild(audio);
     });
 });
